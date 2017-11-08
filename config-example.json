@@ -1,0 +1,22 @@
+{
+  "discord_options":{
+    "bot_token": "discord-token",
+    "bot_prefix": "!",
+    "catalogs": "2",
+    "minecraft_ip": "ip-address"
+  },
+  "twitch_options":{
+    "options": {
+      "debug": false
+    },
+    "connection": {
+      "cluster": "aws",
+      "reconnect": true 
+    },
+    "identity": {
+      "username": "twitch-username",
+      "password": "oauth:twitch-token"
+    },
+    "channels": ["#channel-name"]
+  }
+}

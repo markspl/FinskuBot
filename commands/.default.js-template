@@ -1,0 +1,13 @@
+module.exports = {
+	command: "command",
+	catalog: 1,
+	server: [],
+	user: [],
+	role: [],
+	hidden: false,
+	description: "description",
+	parameters: [],
+	execute: function(Client, message, args, guildMember) {
+		//code
+	}
+}

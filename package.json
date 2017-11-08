@@ -1,0 +1,14 @@
+{
+  "name": "finskubot",
+  "version": "0.7",
+  "description": "FinskuBot",
+  "main": "finskubot.js",
+  "author": {
+    "name": "Finsku"
+  },
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "request": "^2.83.0",
+    "tmi.js": "^1.2.1"
+  }
+}
