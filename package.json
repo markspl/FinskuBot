@@ -1,6 +1,6 @@
 {
   "name": "finskubot",
-  "version": "0.7",
+  "version": "0.7.1",
   "description": "FinskuBot",
   "main": "finskubot.js",
   "author": {

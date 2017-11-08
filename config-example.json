@@ -1,9 +1,9 @@
 {
   "discord_options":{
-    "bot_token": "discord-token",
-    "bot_prefix": "!",
-    "catalogs": "2",
-    "minecraft_ip": "ip-address"
+    "bot_token": "Bot's Discord token (https://discordapp.com/developers)",
+    "bot_prefix": "The prefix what your bot uses/listens",
+    "catalogs": "THe count of catalogs. Command !finskubot uses that information",
+    "minecraft_ip": "Server's IP address. Disabled command"
   },
   "twitch_options":{
     "options": {
@@ -14,9 +14,9 @@
       "reconnect": true 
     },
     "identity": {
-      "username": "twitch-username",
-      "password": "oauth:twitch-token"
+      "username": "Twitch username",
+      "password": "oauth:Twitch token"
     },
-    "channels": ["#channel-name"]
+    "channels": ["#Channel name(s) what bot spys"]
   }
 }
