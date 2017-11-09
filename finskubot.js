@@ -10,6 +10,8 @@ var Discord = require("discord.js"),
 	Config = require("./config.json"),
 	Package = require("./package.json"),
 	prefix = Config.discord_options.bot_prefix;
+	request = require("request");
+	//cron = require("node-schedule");
 
 // STRINGS ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,11 +53,15 @@ Client.load = (command) => {
 };
 
 Client.on("guildCreate", async (guild) => {
-	console.info(`# Joined Guild "${Client.guilds.get(guild).name}"`).catch(console.error);;
+	console.info(`# Joined Guild "${Client.guilds.get(guild).name}"`).catch(console.error.stack);;
 });
 
 Client.on("disconnect", event => {
     console.log("# Disconnected : \n" + event.reason);
+});
+
+Client.on("error", (err) => {
+	console.log("\n##########\n## [ERROR]\n##########\n\n" + err.stack);
 });
 
 // MESSAGE HANDLER ////////////////////////////////////////////////////////////////////////////////
@@ -74,14 +80,26 @@ Client.on("message", message => {
 				const guildMember = message.author.id;
 				args.splice(0,1);
 				
-				if(command in Client.commands){
+				if(command == "bot" && args[0] == "reload" && args[1] == "nowplaying"){
+					try{
+						Nowplaying.disconnect();
+						/*delete require.cache[require.resolve("./nowplaying.js")];
+						var Nowplaying = require("./nowplaying.js");*/
+					}catch(e){
+						console.log("\n##########\n## [ERROR]\n##########\n\n" + e.stack);
+					}
+				}else if(command in Client.commands){
 					if(Client.commands[command].server == message.guild.id || Client.commands[command].server.length === 0){
 						if(message.author.id == Client.commands[command].user || Client.commands[command].user.length === 0){
 							//console.log("DEBUG > roles : " + Client.commands[command].role);
 							if(message.guild.members.get(message.author.id).roles.get(`${Client.commands[command].role}`) || Client.commands[command].role.length === 0){
 								// console.log("DEBUG > args : " + args);
-								console.log(`[*${new Date().toLocaleString()}*][**${message.guild.name}**] [${message.author.username} (*${message.author.id}*)] uses ${message.content}`);
-								Client.commands[command].execute(Client, message, args, guildMember);
+								try{
+									console.log(`[*${new Date().toLocaleString()}*][**${message.guild.name}**] [${message.author.username} (*${message.author.id}*)] uses ${message.content}`);
+									Client.commands[command].execute(Client, message, args, guildMember);
+								}catch(e){
+									console.log("\n##########\n## [ERROR]\n##########\n\n" + e.stack);
+								}
 							}else{
 								message.channel.send(message_no_role).then(m => m.delete(30000));
 								console.log(`[*${new Date().toLocaleString()}*][**${message.guild.name}**] [${message.author.username} (*${message.author.id}*)] tried to use command ${command} [role missing]`);
@@ -97,14 +115,93 @@ Client.on("message", message => {
 // NOWPLAYING /////////////////////////////////////////////////////////////////////////////////////
 
 exports.nowplaying = function nowplaying(song,artist){
+	var coverURL = "",
+		ID = "",
+		body = ""
+		api_release = "";
+	
+	const api_track = "https://connect.monstercat.com/api/catalog/track?fuzzy=" +
+		"artistsTitle," + artist +
+		",title," + song;
+		
+	try{
+		request({
+			url: api_track,
+			json: true
+		}, function(error,response,body_track){
+			if(!error && response.statusCode === 200){
+				if(body_track.total != "0"){
+					
+					ID = body_track.results[0].albums[0].albumId;
+					api_release = "https://connect.monstercat.com/api/catalog/release/" + ID;
+					//console.log("1");
+					
+					/*coverURL = body.results[0].coverURL;
+					coverURL = coverURL.replace(/ /g, "%20");
+					console.log(body);*/		
+				}//else console.log("1 no")			
+			}else{
+				console.log("\n##########\n## [ERROR]\n##########\n\n" + error.stack);
+			}
+		});
+		
+		//console.log(ID);
+		//console.log(api_release);
+		
+		if(api_release){
+			request({
+				url: api_release,
+				json: true
+			}, function(error,response,body_release){
+				if(!error && response.statusCode === 200){
+					if(body_release.total != "0"){
+						
+						body = body_release;
+						//console.log("2");
+						/*coverURL = body.results[0].coverURL;
+						coverURL = coverURL.replace(/ /g, "%20");
+						console.log(body);*/		
+					}//else console.log("2 no");				
+				}else{
+					console.log("\n##########\n## [ERROR]\n##########\n\n" + error.stack);
+				}
+			});
+			
+			//console.log(body);
+			
+		}
+		
+	} catch(e) {
+		console.log("\n##########\n## [ERROR]\n##########\n\n" + e.stack);
+	}
+	
 	const embed = new Discord.RichEmbed()
 		.addField("🎵 Now playing",`\n${song}\nby ${artist}`)
 		.setURL("https://www.twitch.tv/monstercat")
-		.setThumbnail("https://i.imgur.com/7KTOtj1.png")
 		.setTimestamp();
+	
+	if(ID && body){
 		
-		Client.channels.get("374676313564381185").send({embed});	
+		//console.log("3");
+		
+		coverURL = body.coverURL;
+		coverURL = coverURL.replace(/ /g, "%20");
+		
+		embed.setThumbnail(coverURL)
+	}else{
+		//console.log("3 no");
+		embed.setThumbnail("https://i.imgur.com/LbX2KgA.png")
+	}
+		
+	Client.channels.get("374676313564381185").send({embed});	
 }
+
+// TIMERS /////////////////////////////////////////////////////////////////////////////////////////
+
+// Every day 04:00 and 16:00
+/*cron.scheduleJob("0 * * * *", function(){
+	Client.channels.get("364767078470909963").send("test");
+});*/
 
 // BOOT ///////////////////////////////////////////////////////////////////////////////////////////
 

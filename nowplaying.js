@@ -31,6 +31,11 @@ twitchClient.addListener("message", function(channel,user,message,self){
 	}
 });
 
+exports.disconnect = function disconnect(){
+	twitchClient.disconnect();
+	twitchClient.connect();
+}
+
 
 twitchClient.on("connecting", function(address,port){
 	console.log("# [TWITCH] Connecting to Monstercat chat ...");
@@ -41,7 +46,7 @@ twitchClient.on("connected", function(address, port){
 });
 
 twitchClient.on("disconnected", function(reason){
-	console.log("# [TWITCH] Disconnected!\n" + reason);
+	console.log("# [TWITCH] Disconnected!\n" + reason.stack);
 });
 
 twitchClient.on('crash', function () {
@@ -49,5 +54,5 @@ twitchClient.on('crash', function () {
 });
 
 twitchClient.on('connectfail', function () {
-	if(showConnectionNotices) chatNotice('# [TWITCH] Connection failed', 1000, 3, 'chat-connection-bad-fail');
+	if(showConnectionNotices) chatNotice('# [TWITCH] Connection failed. I try again...', 1000, 3, 'chat-connection-bad-fail');
 });

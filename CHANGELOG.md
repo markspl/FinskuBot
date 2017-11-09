@@ -1,10 +1,29 @@
-# Changelog
+﻿# Changelog
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.7.2] - 2017-11-09
+### Added
+- Added command '!8ball'
+- Added command '!userinfo'
+- Added random answers for command '!avatar'
+- Added two variables in 'config.json' file (bot_owner, bot_homeserver)
+
+### Changed
+- Changed command '!avatar' look
+- Changed command '!changelog' answer and description
+- Changed API address in 'finskubot.js' file
+- Changed filetypes from ANSI to UTF8
+- Changed ANSI codes to UTF8 codes
+- Changed user IDs and guild IDs and added these informations in 'config.json' file
+
+### Removed
+- Removed file 'changelog.json'
+- Removed useless texts and codes from files
 
 ## 0.7.1 - 2017-11-08
 ### Added
@@ -82,7 +101,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Made server command easier to modify
 - Bot automatically removes command messages
 
-## [1.0.0] - 2017-06-20
+## 1.0.0 - 2017-06-20
 ### Added
 - New visual identity by @tylerfortune8.
 
@@ -92,4 +111,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Section about 'changelog' vs 'CHANGELOG'.
 
-[Unreleased]: https://github.com/markspl/FinskuBot/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/markspl/FinskuBot/compare/v0.7.2...HEAD
+[0.7.2]: https://github.com/markspl/FinskuBot/compare/v0.7.1...v0.7.2

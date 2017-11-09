@@ -5,24 +5,15 @@
 	user: [],
 	role: [],
 	hidden: false,
-	description: "Shows last version's changelog",
+	description: "Gives GitHub link",
 	parameters: [],
 	execute: function(Client, message, args, guildMember) {
-		delete require.cache[require.resolve("../changelog.json")];
-		const Changelog = require("../changelog.json");
-		
-		var log = "🔖 **Changelog:**\n\n";
-		
-		log += "**" + Changelog.versions[0].version + "** | *" + Changelog.versions[0].date + "*";
-		log += "```";
-		
-		for(var i = 0; i < Changelog.versions[0].changes.length; i++){
-			var clog = Changelog.versions[0];
-			log += "• " + clog.changes[i] + "\n";				
-		}			
-		
-		log += "```";
-		
+
+		var log = "🔖 **Changelog:**\n";
+		log += "**Check changelog here:**\n";
+		log += "<https://github.com/markspl/FinskuBot/blob/master/CHANGELOG.md>";
+
 		message.channel.send(log);
+
 	}
 }

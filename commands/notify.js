@@ -1,9 +1,10 @@
-﻿const Discord = require("discord.js");
+﻿const Discord = require("discord.js"),
+	Config = require("../config.json");
 
 module.exports = {
 	command: "notify",
 	catalog: 1,
-	server: ["342316064711114753"],
+	server: [Config.discord_options.bot_homeserver],
 	user: [],
 	role: [],
 	hidden: false,

@@ -1,8 +1,10 @@
+const Config = require("../config.json");
+
 module.exports = {
 	command: "bot",
 	catalog: 1,
 	server: [],
-	user: ["210125258034905089"],
+	user: [Config.discord_options.bot_owner],
 	role: [],
 	hidden: false,
 	description: "[A] Control bot",
@@ -33,31 +35,8 @@ module.exports = {
 			console.log("# Reloaded!");
 			
 		}else if(args[0] == "reboot"){
-			
-			/*if(args[1] == "nowplaying"){
-			
-				child = exec("pm2 restart nowplaying",
-				function (error, stdout, stderr){
-					console.log('stdout: ' + stdout);
-					console.log("stderr: " + stderr);
-					if (error !== null){
-						console.log("exec error: " + error);
-					}
-				});
-				
-				return; 
-			}*/
-			
-			message.channel.send("⚠ Rebooting bot...");//.then(m => m.delete(2000));
-			
-			/*child = exec("pm2 restart nowplaying",
-				function (error, stdout, stderr){
-					console.log('stdout: ' + stdout);
-					console.log("stderr: " + stderr);
-					if (error !== null){
-						console.log("exec error: " + error);
-					}
-				});*/
+						
+			message.channel.send("⚠ Rebooting bot...");
 			
 			child = exec("pm2 restart finskubot",
 				function (error, stdout, stderr){
@@ -69,16 +48,7 @@ module.exports = {
 				});
 				
 		}else if(args[0] == "kill"){
-			message.channel.send("👀 Killing FinskuBot...");//.then(m => m.delete(2000));
-			
-			/*child = exec("pm2 stop nowplaying",
-				function (error, stdout, stderr){
-					console.log('stdout: ' + stdout);
-					console.log("stderr: " + stderr);
-					if (error !== null){
-						console.log("exec error: " + error);
-					}
-				});*/
+			message.channel.send("👀 Killing FinskuBot...");
 			
 			child = exec("pm2 stop finskubot",
 				function (error, stdout, stderr){

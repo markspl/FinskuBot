@@ -3,11 +3,11 @@ const Config = require("../config.json");
 module.exports = {
 	command: "server",
 	catalog: 2,
-	server: ["358690414557003791"],
+	server: [Config.discord_options.bot_homeserver],
 	user: [],
 	role: [],
 	hidden: false,
-	description: "NÃ¤e palvelimen tiedot",
+	description: "Näe palvelimen tiedot",
 	parameters: ["ip"],
 	execute: function(Client, message, args, guildMember) {
 		
@@ -19,13 +19,13 @@ module.exports = {
 			if(!ip){
 				message.channel.send("**IP osoite puuttuu!**").then(m => m.delete(5000));
 			} else {
-				message.channel.send("ðŸ”— IP: *" + Config.discord_options.minecraft_ip + "*");
+				message.channel.send("🔗 IP: *" + Config.discord_options.minecraft_ip + "*");
 			}
 			
 		}
 		
 		if(args[1] && args[1] != "ip"){
-			message.channel.send("*Nyt en kyllÃ¤ ymmÃ¤rtÃ¤nyt, kokeile uudelleen*").then(m => m.delete(5000));
+			message.channel.send("*Nyt en kyllä ymmärtänyt, kokeile uudelleen*").then(m => m.delete(5000));
 		}
 		
 		if(!args[1]){
@@ -34,7 +34,7 @@ module.exports = {
 			request(url, function(err, response, body){
 				if(err){
 					console.log(err);
-					message.channel.send("*En lÃ¶ytÃ¤nyt mitÃ¤Ã¤n tietoa serveristÃ¤*").then(m => m.delete(10000));
+					message.channel.send("*En löytänyt mitään tietoa serveristä*").then(m => m.delete(10000));
 				}
 				body = JSON.parse(body);
 				
@@ -42,25 +42,25 @@ module.exports = {
 					
 					var serverstatus = "<:minecraft:360008113321017345> **" + body.motd + "**";
 					
-					serverstatus += "\nâœ… Avoinna";
+					serverstatus += "\n✅ Avoinna";
 					
 					if(body.players.now > 1){
-						serverstatus += "\nðŸ‘¥";
+						serverstatus += "\n👤";
 					} else {
-						serverstatus += "\nðŸ‘¤";
+						serverstatus += "\n👥";
 					} 
 					
 					serverstatus += " Pelaajia: *" + body.players.now + "*/*" + body.players.max + "*";
-					serverstatus += "\nâ„¹ Versio: *" + body.server.name + "*";
+					serverstatus += "\nℹ Versio: *" + body.server.name + "*";
 					
-					serverstatus += "\nðŸ”— IP: *" + ip + "*";
+					serverstatus += "\n🔗 IP: *" + ip + "*";
 					
 				} else if(body.online === false){
 					
 					var serverstatus = "<:minecraft:360008113321017345> **Serveri on kiinni**";
 
 				} else {
-					serverstatus += "\nðŸ¤· *Nyt en kyllÃ¤ tiedÃ¤...*";
+					serverstatus += "\n❓ *Nyt en kyllä tiedä...*";
 				}
 				
 				message.channel.send(serverstatus).then(m => m.delete(3600000));

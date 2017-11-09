@@ -3,7 +3,9 @@
     "bot_token": "Bot's Discord token (https://discordapp.com/developers)",
     "bot_prefix": "The prefix what your bot uses/listens",
     "catalogs": "THe count of catalogs. Command !finskubot uses that information",
-    "minecraft_ip": "Server's IP address. Disabled command"
+    "minecraft_ip": "Server's IP address. Disabled command",
+	"bot_owner": "The user ID of bot's master",
+	"bot_homeserver": "The guild ID of bot's home server"
   },
   "twitch_options":{
     "options": {
