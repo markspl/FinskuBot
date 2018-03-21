@@ -178,7 +178,8 @@ exports.nowplaying = function nowplaying(song,artist){
 	const embed = new Discord.RichEmbed()
 		.addField("🎵 Now playing",`\n${song}\nby ${artist}`)
 		.setURL("https://www.twitch.tv/monstercat")
-		.setTimestamp();
+		.setTimestamp()
+		.setColor("0x6441A4");
 	
 	if(ID && body){
 		

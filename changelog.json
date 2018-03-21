@@ -1,6 +1,14 @@
 ﻿{
 	"versions": [
 		{
+			"version": "0.8",
+			"date": "2018-03-20",
+			"changes": [
+				"`!request role` doesn't need anymore caps if a role has upper case letters",
+				"Personal colors will save with color code names, not with user ID like earlier"
+			]
+		},
+		{
 			"version": "0.7.1",
 			"date": "2017-11-08",
 			"changes": [
@@ -51,7 +59,7 @@
 			"changes": [
 				"Multiple small fixes",
 				"Modularity! Each command has own .js file",
-				"Added new features for command `!monstercat`", 
+				"Added new features for command `!monstercat`",
 				"Added new command data `catalog`",
 				"Updated `!ping`"
 			]
@@ -94,6 +102,6 @@
 				"Bot automatically removes command messages"
 			]
 		}
-		
+
 	]
 }
