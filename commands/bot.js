@@ -8,10 +8,10 @@ module.exports = {
 	role: [],
 	hidden: false,
 	description: "[A] Control bot",
-	parameters: ["reload <command>","reboot","kill"],
+	parameters: ["reload <command>"], //,"reboot","kill"],
 	execute: function (Client, message, args, guildMember){
 		message.delete();
-		var exec = require('child_process').exec, child;
+		//var exec = require('child_process').exec, child;
 		
 		if(args[0] == "reload"){
 			console.time('# Loading');
@@ -34,7 +34,8 @@ module.exports = {
 			console.timeEnd('# Loading');
 			console.log("# Reloaded!");
 			
-		}else if(args[0] == "reboot"){
+		}
+		/*else if(args[0] == "reboot"){
 						
 			message.channel.send("⚠ Rebooting bot...");
 			
@@ -59,9 +60,13 @@ module.exports = {
 					}
 				});
 				
-		}else{
+		}*/
+		else{
 			var response = "⚠ Use reload parameters\n";
-			response += "`reload <command>` - Reload(s) command file(s)\n`reboot` - Reboot the bot\n`kill` - Kills the bot";
+			response += "`reload <command>` - Reload(s) command file(s)";
+			// Commands which works with pm2
+			//response += "\n`reboot` - Reboot the bot";
+			//response += "\n`kill` - Kills the bot";
 			message.channel.send(response).then(m => m.delete(60000));
 		}
 	}
