@@ -66,7 +66,11 @@ module.exports = {
 
 
 				// user doesn't have a color role. Give it.
-				if(!message.guild.)
+				// WIP
+				//if(!message.guild.)
+
+
+				
 
 				if(!message.guild.members.get(message.author.id).roles.find("name",`${args[1]}`) && message.guild.roles.find("name", `${args[1]}`)){
 					let role = message.guild.roles.find("name", `${args[1]}`);

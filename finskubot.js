@@ -9,7 +9,7 @@ var Discord = require("discord.js"),
 	Config = require("./config.json"),
 	Package = require("./package.json"),
 	prefix = Config.discord_options.bot_prefix,
-	request = require("request"),
+	//request = require("request"),
 	//cron = require("node-schedule");
 	// D E V
 	dev = Config.dev;
@@ -120,7 +120,7 @@ Client.on("message", message => {
 });
 
 // NOWPLAYING /////////////////////////////////////////////////////////////////////////////////////
-
+/*
 exports.nowplaying = function nowplaying(song,artist){
 	var coverURL = "",
 		ID = "",
@@ -145,7 +145,7 @@ exports.nowplaying = function nowplaying(song,artist){
 
 					/*coverURL = body.results[0].coverURL;
 					coverURL = coverURL.replace(/ /g, "%20");
-					console.log(body);*/
+					console.log(body);/
 				}//else console.log("1 no")
 			}else{
 				console.log("\n##########\n## [ERROR]\n##########\n\n" + error.stack);
@@ -167,7 +167,7 @@ exports.nowplaying = function nowplaying(song,artist){
 						//console.log("2");
 						/*coverURL = body.results[0].coverURL;
 						coverURL = coverURL.replace(/ /g, "%20");
-						console.log(body);*/
+						console.log(body);/
 					}//else console.log("2 no");
 				}else{
 					console.log("\n##########\n## [ERROR]\n##########\n\n" + error.stack);
@@ -203,6 +203,7 @@ exports.nowplaying = function nowplaying(song,artist){
 
 	Client.channels.get("374676313564381185").send({embed});
 }
+*/
 
 // TIMERS /////////////////////////////////////////////////////////////////////////////////////////
 

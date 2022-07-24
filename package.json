@@ -15,9 +15,8 @@
     "url": ""
   },
   "dependencies": {
-    "discord.js": "^11.3.2",
+    "discord.js": "^11.6.4",
     "node-schedule": "^1.2.5",
-    "request": "^2.85.0",
     "tmi.js": "^1.2.1"
   }
 }
