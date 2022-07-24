@@ -1,15 +1,23 @@
 {
   "name": "finskubot",
-  "version": "0.7.1",
+  "version": "0.7.3",
   "description": "FinskuBot",
   "main": "finskubot.js",
   "author": {
     "name": "Finsku"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markspl/FinskuBot.git"
+  },
+  "license": {
+    "type": "",
+    "url": ""
+  },
   "dependencies": {
-    "discord.js": "^11.2.1",
+    "discord.js": "^11.3.2",
     "node-schedule": "^1.2.5",
-    "request": "^2.83.0",
+    "request": "^2.85.0",
     "tmi.js": "^1.2.1"
   }
 }

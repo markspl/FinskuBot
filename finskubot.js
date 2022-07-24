@@ -3,15 +3,20 @@
 process.title = "FinskuBot";
 
 var Discord = require("discord.js"),
-	Nowplaying = require("./nowplaying.js"),
 	Client = new Discord.Client(),
 	fs = require("fs"),
-	path = require("path");
+	path = require("path"),
 	Config = require("./config.json"),
 	Package = require("./package.json"),
-	prefix = Config.discord_options.bot_prefix;
-	request = require("request");
+	prefix = Config.discord_options.bot_prefix,
+	request = require("request"),
 	//cron = require("node-schedule");
+	// D E V
+	dev = Config.dev;
+
+	if(dev == false){
+		Nowplaying = require("./nowplaying.js");
+	}
 
 // STRINGS ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -24,7 +29,7 @@ const message_dm = "I don't serve you personally!\nTry again but on this time wr
 Client.once("ready", async () => {
 	console.time("# Loading");
 	Client.load();
-	Client.user.setGame(` - !finskubot | ${Package.version}`);
+	Client.user.setActivity(`!finskubot | ${Package.version}`);
 	console.log(`# FinskuBot version:\x1b[36m ${Package.version} \x1b[0m\n# Logged in as ${Client.user.tag}!\n# Serving in ${Client.guilds.array().length} servers`);
 	console.timeEnd("# Loading");
 	console.log("# I'm ready!");
@@ -47,7 +52,7 @@ Client.load = (command) => {
 				Client.commands[item.slice(0,-3)] = require(__dirname + "/commands/" + item);
 			}
 		}
-		
+
 		console.log("# # Commands loaded : " + commandList.length);
 	}
 };
@@ -70,7 +75,9 @@ Client.on("message", message => {
     if (message.channel.type === "dm" && message.author.id !== Client.user.id) {
         message.channel.send(message_dm);
     } else if (message.channel.type === "text") {
-        if (message.isMentioned(Client.user)) {
+				if (dev == true && message.channel.id != "364767078470909963"){
+					return null;
+				} else if (message.isMentioned(Client.user)) {
             message.reply(message_mention);
         } else {
             var message_text = message.content;
@@ -79,7 +86,7 @@ Client.on("message", message => {
 				const command = args[0].slice(prefix.length);
 				const guildMember = message.author.id;
 				args.splice(0,1);
-				
+
 				if(command == "bot" && args[0] == "reload" && args[1] == "nowplaying"){
 					try{
 						Nowplaying.disconnect();
@@ -119,11 +126,11 @@ exports.nowplaying = function nowplaying(song,artist){
 		ID = "",
 		body = ""
 		api_release = "";
-	
+
 	const api_track = "https://connect.monstercat.com/api/catalog/track?fuzzy=" +
 		"artistsTitle," + artist +
 		",title," + song;
-		
+
 	try{
 		request({
 			url: api_track,
@@ -131,23 +138,23 @@ exports.nowplaying = function nowplaying(song,artist){
 		}, function(error,response,body_track){
 			if(!error && response.statusCode === 200){
 				if(body_track.total != "0"){
-					
+
 					ID = body_track.results[0].albums[0].albumId;
 					api_release = "https://connect.monstercat.com/api/catalog/release/" + ID;
 					//console.log("1");
-					
+
 					/*coverURL = body.results[0].coverURL;
 					coverURL = coverURL.replace(/ /g, "%20");
-					console.log(body);*/		
-				}//else console.log("1 no")			
+					console.log(body);*/
+				}//else console.log("1 no")
 			}else{
 				console.log("\n##########\n## [ERROR]\n##########\n\n" + error.stack);
 			}
 		});
-		
+
 		//console.log(ID);
 		//console.log(api_release);
-		
+
 		if(api_release){
 			request({
 				url: api_release,
@@ -155,46 +162,46 @@ exports.nowplaying = function nowplaying(song,artist){
 			}, function(error,response,body_release){
 				if(!error && response.statusCode === 200){
 					if(body_release.total != "0"){
-						
+
 						body = body_release;
 						//console.log("2");
 						/*coverURL = body.results[0].coverURL;
 						coverURL = coverURL.replace(/ /g, "%20");
-						console.log(body);*/		
-					}//else console.log("2 no");				
+						console.log(body);*/
+					}//else console.log("2 no");
 				}else{
 					console.log("\n##########\n## [ERROR]\n##########\n\n" + error.stack);
 				}
 			});
-			
+
 			//console.log(body);
-			
+
 		}
-		
+
 	} catch(e) {
 		console.log("\n##########\n## [ERROR]\n##########\n\n" + e.stack);
 	}
-	
+
 	const embed = new Discord.RichEmbed()
 		.addField("🎵 Now playing",`\n${song}\nby ${artist}`)
 		.setURL("https://www.twitch.tv/monstercat")
 		.setTimestamp()
 		.setColor("0x6441A4");
-	
+
 	if(ID && body){
-		
+
 		//console.log("3");
-		
+
 		coverURL = body.coverURL;
 		coverURL = coverURL.replace(/ /g, "%20");
-		
+
 		embed.setThumbnail(coverURL)
 	}else{
 		//console.log("3 no");
 		embed.setThumbnail("https://i.imgur.com/LbX2KgA.png")
 	}
-		
-	Client.channels.get("374676313564381185").send({embed});	
+
+	Client.channels.get("374676313564381185").send({embed});
 }
 
 // TIMERS /////////////////////////////////////////////////////////////////////////////////////////

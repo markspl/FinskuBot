@@ -1,11 +1,11 @@
 {
   "discord_options":{
     "bot_token": "Bot's Discord token (https://discordapp.com/developers)",
-    "bot_prefix": "The prefix what your bot uses/listens",
-    "catalogs": "THe count of catalogs. Command !finskubot uses that information",
+    "bot_prefix": "The prefix what your bot uses/listens. I'm using '!'",
+    "catalogs": "The count of catalogs. Command !finskubot uses that information",
     "minecraft_ip": "Server's IP address. Disabled command",
-	"bot_owner": "The user ID of bot's master",
-	"bot_homeserver": "The guild ID of bot's home server"
+	"bot_owner": "The user ID of bot's master without '<@' and '>'",
+	"bot_homeserver": "The guild ID of bot's home server without '<@' and '>'"
   },
   "twitch_options":{
     "options": {
@@ -13,12 +13,13 @@
     },
     "connection": {
       "cluster": "aws",
-      "reconnect": true 
+      "reconnect": true
     },
     "identity": {
       "username": "Twitch username",
       "password": "oauth:Twitch token"
     },
-    "channels": ["#Channel name(s) what bot spys"]
-  }
+    "channels": ["#Channel name(s) what bot spys. For example '#channelname'"]
+  },
+  "dev": false
 }

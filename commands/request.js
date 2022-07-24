@@ -27,7 +27,7 @@ module.exports = {
 			response += "`color <#colorcode>` - Request nickname color\n`role <params>` - Request a specific role with arquments";
 			response += "\n\nFind a color code here: <http://googl.com/#q=color+picker>";
 			return message.channel.send(response);//.then(m => m.delete(60000));
-		}else if(args[0] == "color"){
+		}else if(args[0] == "color" || args[0] == "colour"){
 			if(!args[1]){
 				//request color
 				// > prints how-to
@@ -54,29 +54,40 @@ module.exports = {
 				}
 			}else if(/(^#[0-9A-F]{6}$)/i.test(args[1]) || /(^[0-9A-F]{6}$)/i.test(args[1])){
 				//request color #000000
-				// > creates new role with user id
-				// > sets gived color
+
 				if(/(^[0-9A-F]{6}$)/i.test(args[1])) args[1] = "#"+args[1];
 
-				if(!message.guild.members.get(message.author.id).roles.find("name",`${message.author.id}`) && message.guild.roles.find("name", `${message.author.id}`)){
-					let role = message.guild.roles.find("name", `${message.author.id}`);
+
+
+
+
+
+
+
+
+				// user doesn't have a color role. Give it.
+				if(!message.guild.)
+
+				if(!message.guild.members.get(message.author.id).roles.find("name",`${args[1]}`) && message.guild.roles.find("name", `${args[1]}`)){
+					let role = message.guild.roles.find("name", `${args[1]}`);
 					role.setColor(args[1]);
 
 					message.guild.members.get(message.author.id).addRole(role).catch(console.error);
 					//message.channel.send("️✅ <@" + message.author.id +">, successfully changed your color to `" + args[1] + "`! `DEBUG: no role, role found on guild, edit role and give it`");
 
 					const embed = new Discord.RichEmbed()
-						.setAuthor(message.author.username + ", enjoy your new color [" + args[1] + "]!", "https://cdn.discordapp.com/attachments/364767078470909963/373886303860949014/asd.png")
+						.setAuthor(message.author.username + ", enjoy your new color " + args[1] + "!", "https://cdn.discordapp.com/attachments/364767078470909963/373886303860949014/asd.png")
 						.setColor(args[1]);
 						//.setFooter("DEBUG: no role, role found on guild, edit role and give it");
 
 					message.channel.send({embed});
 
 					return null;
-				// if no role
-				}else if(!message.guild.members.get(message.author.id).roles.find("name",`${message.author.id}`)){
+
+				// if no role, create new
+				}else if(!message.guild.members.get(message.author.id).roles.find("name",`${args[1]}`)){
 					message.guild.createRole({
-						name: `${message.author.id}`,
+						name: `${args[1]}`,
 						color: `${args[1]}`,
 						mentionable: false,
 						permissions: 0
@@ -87,7 +98,7 @@ module.exports = {
 					//message.channel.send("️✅ <@" + message.author.id +">, enjoy your new color `" + args[1] + "`! `DEBUG: no role, no role on group, create role and give it`");
 
 					const embed = new Discord.RichEmbed()
-						.setAuthor(message.author.username + ", enjoy your new color [" + args[1] + "]!", "https://cdn.discordapp.com/attachments/364767078470909963/373886303860949014/asd.png")
+						.setAuthor(message.author.username + ", enjoy your new color " + args[1] + "!", "https://cdn.discordapp.com/attachments/364767078470909963/373886303860949014/asd.png")
 						.setColor(args[1]);
 						//.setFooter("DEBUG: no role, no role on group, create role and give it");
 
@@ -96,8 +107,8 @@ module.exports = {
 					return null;
 				}
 				// if a role > update
-				else if(message.guild.members.get(message.author.id).roles.find("name",`${message.author.id}`)){
-					let role = message.guild.members.get(message.author.id).roles.find("name",`${message.author.id}`);
+				else if(message.guild.members.get(message.author.id).roles.find("name",`${args[1]}`)){
+					let role = message.guild.members.get(message.author.id).roles.find("name",`${args[1]}`);
 					role.setColor(args[1]);
 					//message.channel.send("️✅ <@" + message.author.id +">, successfully changed your color to `" + args[1] + "`! `DEBUG: role found, update role and give it`");
 

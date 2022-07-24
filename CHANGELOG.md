@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.3] - 2018-03-21
+### Added
+- Added missing fields in package.json
+- Added a DEV mode
+
+### Changed
+- Updated Discord.js
+- Color requests `!request color` works now with roles named with color codes, not with user IDs
+- Fixed `!request role` command. Didn't find the roles if user didn't use uppercase letters
+- Moved `changelog.js` to /disabled-commands/
+
 ## [0.7.2] - 2017-11-09
 ### Added
 - Added command '!8ball'
@@ -62,7 +73,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## 0.5 - 2017-10-13
 ### Added
 - Modularity! Each command has own .js file
-- Added new features for command '!monstercat' 
+- Added new features for command '!monstercat'
 - Added new command data 'catalog'
 
 ### Changed
