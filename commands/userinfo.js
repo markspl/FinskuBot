@@ -22,7 +22,10 @@ module.exports = {
 		
 		// Get date information
 		const n = new Date();
-		const c = user.createdAt;
+		const c = message.author.createdAt;
+		const user = message.author;
+
+		console.log(c);
 		
 		// Convert to UTC
 		const now = Date.UTC(n.getFullYear(), n.getMonth(), n.getDate());
