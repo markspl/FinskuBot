@@ -9,10 +9,14 @@ const Client = new Discord.Client();
 
 const { discord_options, dev } = require("./config.json");
 const { version } = require("./package.json");
-const { MESSAGE_DM, MESSAGE_MENTION, MESSAGE_NOROLE } = require("./strings.js");
 
 process.title = "FinskuBot";
 const prefix = discord_options.bot_prefix;
+
+// Strings
+const MESSAGE_DM = "I don't serve you personally!\nTry again but on this time write the command \ninto the guild channel where I'm serving my master(s).";
+const MESSAGE_MENTION = "Hi there, I'm FinskuBot!\nUse **!finskubot** to see the command list! *bzzzzzz*";
+const MESSAGE_NOROLE = "You don't have permission to use that command!\nReason: `role missing`";
 
 // Bot launch
 Client.once("ready", async () => {
@@ -102,12 +106,19 @@ Client.on("message", message => {
 
 				// Used a command which is found from folder './commands'
 				if (command in Client.commands) {
+
 					// Check if the command is made for specific server(s)
 					if (Client.commands[command].server == message.guild.id || Client.commands[command].server.length === 0) {
+
 						// ... for specific user(s)
-						if (message.author.id == Client.commands[command].user || Client.commands[command].user.length === 0) {
+						if (Client.commands[command].user.includes(message.author.id) || Client.commands[command].user.length === 0) {
+
 							// ... for specific role(s)
-							if (message.guild.members.get(message.author.id).roles.get(`${Client.commands[command].role}`) || Client.commands[command].role.length === 0) {
+							// Get all roles which user has
+							const allUserRoles = [ ...message.guild.members.get(message.author.id).roles.keys() ];
+
+							// Check if at least one role match
+							if(Client.commands[command].role.some(r => allUserRoles.includes(r)) || Client.commands[command].role.length === 0) {
 								
 								// Execute command
 								try {
@@ -120,6 +131,8 @@ Client.on("message", message => {
 
 							} else {
 								// Inform command user they don't have correct role(s) to use the command
+								console.log(MESSAGE_NOROLE);
+								message.delete();
 								message.channel.send(MESSAGE_NOROLE).then(m => m.delete(30000));
 								console.log(`[*${new Date().toLocaleString()}*][**${message.guild.id}**] [${message.author.username} (*${message.author.id}*)] tried to use command ${command} [role missing]`);
 							}
