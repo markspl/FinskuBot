@@ -10,10 +10,6 @@
     "type": "git",
     "url": "https://github.com/markspl/FinskuBot.git"
   },
-  "license": {
-    "type": "",
-    "url": ""
-  },
   "dependencies": {
     "discord.js": "^11.6.4",
     "node-schedule": "^1.2.5",

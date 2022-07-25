@@ -1,218 +1,139 @@
-﻿// FINSKUBOT //////////////////////////////////////////////////////////////////////////////////////
+﻿/**
+ * FinskuBot - Another stupid Discord/Twitch bot.
+ * Author: Markus (github/markspl)
+ */
+
+const fs = require("fs");
+const Discord = require("discord.js");
+const Client = new Discord.Client();
+
+const { discord_options, dev } = require("./config.json");
+const { version } = require("./package.json");
+const { MESSAGE_DM, MESSAGE_MENTION, MESSAGE_NOROLE } = require("./strings.js");
 
 process.title = "FinskuBot";
+const prefix = discord_options.bot_prefix;
 
-var Discord = require("discord.js"),
-	Client = new Discord.Client(),
-	fs = require("fs"),
-	path = require("path"),
-	Config = require("./config.json"),
-	Package = require("./package.json"),
-	prefix = Config.discord_options.bot_prefix,
-	//request = require("request"),
-	//cron = require("node-schedule");
-	// D E V
-	dev = Config.dev;
-
-	if(dev == false){
-		Nowplaying = require("./nowplaying.js");
-	}
-
-// STRINGS ////////////////////////////////////////////////////////////////////////////////////////
-
-const message_dm = "I don't serve you personally!\nTry again but on this time write the command \ninto the guild channel where I'm serving my master(s).",
-	message_mention = "Hi there, I'm FinskuBot!\nUse **!finskubot** to see the command list! *bzzzzzz*",
-	message_no_role = "You don't have permission to use that command! `role missing`";
-
-// BOT ////////////////////////////////////////////////////////////////////////////////////////////
-
+// Bot launch
 Client.once("ready", async () => {
 	console.time("# Loading");
 	Client.load();
-	Client.user.setActivity(`!finskubot | ${Package.version}`);
-	console.log(`# FinskuBot version:\x1b[36m ${Package.version} \x1b[0m\n# Logged in as ${Client.user.tag}!\n# Serving in ${Client.guilds.array().length} servers`);
+
+	// Activity text on the user list (left panel)
+	Client.user.setActivity(`${prefix}\finskubot | ${version}`);
+
+	console.log(`# FinskuBot version: \x1b[36m${version} \x1b[0m`);
+	console.log(`# Logged in as \x1b[36m${Client.user.tag}\x1b[0m`);
+	console.log(`# Serving in \x1b[36m${Client.guilds.array().length} \x1b[0mserver(s)`);
 	console.timeEnd("# Loading");
-	console.log("# I'm ready!");
-	Client.channels.get("364767078470909963").send(`**I'm up!** *Use me!* (͡° ͜ʖ ͡°)\n[${new Date().toUTCString()}]`);
+	console.log("\n# I'm ready!\n");
+
+	// Report on specific Discord text channel bot is running
+	Client.channels.get(discord_options.bot_homechannel).send(`**I'm up!** *Use me!* (͡° ͜ʖ ͡°)\n[${new Date().toUTCString()}]`);
 });
 
+// Load commands from ./commands folder
 Client.load = (command) => {
-	const commandList = fs.readdirSync(__dirname +"/commands/");
-	if(command){
-		if(commandList.indexOf(command + ".js") >=0){
+	const commandList = fs.readdirSync(__dirname + "/commands/");
+
+	// Check if commands are already loaded.
+	if (command) {
+		// Reload commands
+		if (commandList.indexOf(command + ".js") >= 0) {
 			delete require.cache[require.resolve(__dirname + "/commands/" + command)];
 			Client.commands[command] = require(__dirname + "/commands/" + command);
 		}
 	} else {
+		// Load commands
 		Client.commands = [];
-		for(let i = 0; i < commandList.length; i++){
+		for (let i = 0; i < commandList.length; i++) {
 			const item = commandList[i];
-			if (item.match(/\.js$/)){
+			if (item.match(/\.js$/)) {
 				delete require.cache[require.resolve(__dirname + "/commands/" + item)];
-				Client.commands[item.slice(0,-3)] = require(__dirname + "/commands/" + item);
+				Client.commands[item.slice(0, -3)] = require(__dirname + "/commands/" + item);
 			}
 		}
 
-		console.log("# # Commands loaded : " + commandList.length);
+		console.log(`\n# Commands loaded: \x1b[36m"${commandList.length}\x1b[0m`);
 	}
 };
 
+// Join a new guild
 Client.on("guildCreate", async (guild) => {
 	console.info(`# Joined Guild "${Client.guilds.get(guild).name}"`).catch(console.error.stack);;
 });
 
+// Disconnect from a guild
 Client.on("disconnect", event => {
-    console.log("# Disconnected : \n" + event.reason);
+	console.log("# Disconnected : \n" + event.reason);
 });
 
+// Error occurred
 Client.on("error", (err) => {
 	console.log("\n##########\n## [ERROR]\n##########\n\n" + err.stack);
 });
 
-// MESSAGE HANDLER ////////////////////////////////////////////////////////////////////////////////
+/**
+ * Message handler
+ */
 
 Client.on("message", message => {
-    if (message.channel.type === "dm" && message.author.id !== Client.user.id) {
-        message.channel.send(message_dm);
-    } else if (message.channel.type === "text") {
-				if (dev == true && message.channel.id != "364767078470909963"){
-					return null;
-				} else if (message.isMentioned(Client.user)) {
-            message.reply(message_mention);
-        } else {
-            var message_text = message.content;
-            if (message.content.startsWith(prefix)) {
+	if (message.channel.type === "dm" && message.author.id !== Client.user.id) {
+		// Return message if private message is sent
+		message.channel.send(MESSAGE_DM);
+
+	} else if (message.channel.type === "text") {
+		// Text channels
+		if (dev == true && message.channel.id != discord_options.bot_homechannel) {
+			return null;
+
+		} else if (message.isMentioned(Client.user)) {
+			// Bot is pinged with '@'
+			message.reply(MESSAGE_MENTION);
+		
+		} else {
+			// Checking if the message starts with the prefix set in config file
+			if (message.content.startsWith(prefix)) {
+			
 				let args = message.content.split(" ");
 				const command = args[0].slice(prefix.length);
 				const guildMember = message.author.id;
-				args.splice(0,1);
+				args.splice(0, 1);
 
-				if(command == "bot" && args[0] == "reload" && args[1] == "nowplaying"){
-					try{
-						Nowplaying.disconnect();
-						/*delete require.cache[require.resolve("./nowplaying.js")];
-						var Nowplaying = require("./nowplaying.js");*/
-					}catch(e){
-						console.log("\n##########\n## [ERROR]\n##########\n\n" + e.stack);
-					}
-				}else if(command in Client.commands){
-					if(Client.commands[command].server == message.guild.id || Client.commands[command].server.length === 0){
-						if(message.author.id == Client.commands[command].user || Client.commands[command].user.length === 0){
-							//console.log("DEBUG > roles : " + Client.commands[command].role);
-							if(message.guild.members.get(message.author.id).roles.get(`${Client.commands[command].role}`) || Client.commands[command].role.length === 0){
-								// console.log("DEBUG > args : " + args);
-								try{
-									console.log(`[*${new Date().toLocaleString()}*][**${message.guild.name}**] [${message.author.username} (*${message.author.id}*)] uses ${message.content}`);
+				// Used a command which is found from folder './commands'
+				if (command in Client.commands) {
+					// Check if the command is made for specific server(s)
+					if (Client.commands[command].server == message.guild.id || Client.commands[command].server.length === 0) {
+						// ... for specific user(s)
+						if (message.author.id == Client.commands[command].user || Client.commands[command].user.length === 0) {
+							// ... for specific role(s)
+							if (message.guild.members.get(message.author.id).roles.get(`${Client.commands[command].role}`) || Client.commands[command].role.length === 0) {
+								
+								// Execute command
+								try {
+									// Message logging
+									console.log(`[${new Date().toLocaleString()}][${message.guild.name} (${message.guild.id})] [${message.author.username} (${message.author.id})] - ${message.content}`);
 									Client.commands[command].execute(Client, message, args, guildMember);
-								}catch(e){
+								} catch (e) {
 									console.log("\n##########\n## [ERROR]\n##########\n\n" + e.stack);
 								}
-							}else{
-								message.channel.send(message_no_role).then(m => m.delete(30000));
-								console.log(`[*${new Date().toLocaleString()}*][**${message.guild.name}**] [${message.author.username} (*${message.author.id}*)] tried to use command ${command} [role missing]`);
+
+							} else {
+								// Inform command user they don't have correct role(s) to use the command
+								message.channel.send(MESSAGE_NOROLE).then(m => m.delete(30000));
+								console.log(`[*${new Date().toLocaleString()}*][**${message.guild.id}**] [${message.author.username} (*${message.author.id}*)] tried to use command ${command} [role missing]`);
 							}
 						}
 					}
 				}
-            }
-        }
-    }
+			}
+		}
+	}
 });
 
-// NOWPLAYING /////////////////////////////////////////////////////////////////////////////////////
-/*
-exports.nowplaying = function nowplaying(song,artist){
-	var coverURL = "",
-		ID = "",
-		body = ""
-		api_release = "";
+/**
+ * Bot boot
+ */
 
-	const api_track = "https://connect.monstercat.com/api/catalog/track?fuzzy=" +
-		"artistsTitle," + artist +
-		",title," + song;
-
-	try{
-		request({
-			url: api_track,
-			json: true
-		}, function(error,response,body_track){
-			if(!error && response.statusCode === 200){
-				if(body_track.total != "0"){
-
-					ID = body_track.results[0].albums[0].albumId;
-					api_release = "https://connect.monstercat.com/api/catalog/release/" + ID;
-					//console.log("1");
-
-					/*coverURL = body.results[0].coverURL;
-					coverURL = coverURL.replace(/ /g, "%20");
-					console.log(body);/
-				}//else console.log("1 no")
-			}else{
-				console.log("\n##########\n## [ERROR]\n##########\n\n" + error.stack);
-			}
-		});
-
-		//console.log(ID);
-		//console.log(api_release);
-
-		if(api_release){
-			request({
-				url: api_release,
-				json: true
-			}, function(error,response,body_release){
-				if(!error && response.statusCode === 200){
-					if(body_release.total != "0"){
-
-						body = body_release;
-						//console.log("2");
-						/*coverURL = body.results[0].coverURL;
-						coverURL = coverURL.replace(/ /g, "%20");
-						console.log(body);/
-					}//else console.log("2 no");
-				}else{
-					console.log("\n##########\n## [ERROR]\n##########\n\n" + error.stack);
-				}
-			});
-
-			//console.log(body);
-
-		}
-
-	} catch(e) {
-		console.log("\n##########\n## [ERROR]\n##########\n\n" + e.stack);
-	}
-
-	const embed = new Discord.RichEmbed()
-		.addField("🎵 Now playing",`\n${song}\nby ${artist}`)
-		.setURL("https://www.twitch.tv/monstercat")
-		.setTimestamp()
-		.setColor("0x6441A4");
-
-	if(ID && body){
-
-		//console.log("3");
-
-		coverURL = body.coverURL;
-		coverURL = coverURL.replace(/ /g, "%20");
-
-		embed.setThumbnail(coverURL)
-	}else{
-		//console.log("3 no");
-		embed.setThumbnail("https://i.imgur.com/LbX2KgA.png")
-	}
-
-	Client.channels.get("374676313564381185").send({embed});
-}
-*/
-
-// TIMERS /////////////////////////////////////////////////////////////////////////////////////////
-
-// Every day 04:00 and 16:00
-/*cron.scheduleJob("0 * * * *", function(){
-	Client.channels.get("364767078470909963").send("test");
-});*/
-
-// BOOT ///////////////////////////////////////////////////////////////////////////////////////////
-
-console.log(`# Logging in with token (${new Date().toLocaleString()}).\n# Using prefix "${Config.discord_options.bot_prefix}"`);
-Client.login(Config.discord_options.bot_token).catch(console.error);
+console.log(`# Launghing - (${new Date().toLocaleString()}).\n\n# Using prefix "\x1b[36m${discord_options.bot_prefix}\x1b[0m"`);
+Client.login(discord_options.bot_token).catch(console.error);
