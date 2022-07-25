@@ -16,7 +16,7 @@ module.exports = {
 	parameters: [],
 	execute: function(Client, message, args, guildMember) {
 
-		const message = "🔖 **Changelog:**\n**Check changelog here:**\n<https://github.com/markspl/FinskuBot/blob/master/CHANGELOG.md>";
+		const log = "🔖 **Changelog:**\n**Check changelog here:**\n<https://github.com/markspl/FinskuBot/blob/master/CHANGELOG.md>";
 
 		message.channel.send(log);
 	}
