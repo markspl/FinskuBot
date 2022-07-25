@@ -1,4 +1,9 @@
-const Discord = require("discord.js");
+/**
+ * FinskuBot - broadcast
+ * Author: Markus (github/markspl)
+ * 
+ * Broadcast a message as bot
+ */
 
 module.exports = {
 	command: "broadcast",
@@ -9,27 +14,40 @@ module.exports = {
 	hidden: false,
 	description: "[A] Send notifications",
 	parameters: ["monstercat <link,text>"],
-	execute: function(Client, message, args, guildMember) {
-		
-		if(!args[0]){
+	execute: function (Client, message, args, guildMember) {
+
+		const pingRoleId = "368160456319172610";
+
+		if (!args[0]) {
+			// Message missing
 			message.delete();
-			message.channel.send("️ℹ️ <@" + message.author.id +">, a link / text missing").then(m => m.delete(10000));
+			message.channel.send("️ℹ️ <@" + message.author.id + ">, a link / text missing").then(m => m.delete(10000));
 			return;
-		}else if(args[0] == "monstercat"){
+
+		} else if (args[0] == "monstercat") {
+			// For Monstercat fans
+			// Parameter 'monstercat' to share YouTube link or text
 			message.delete();
-			if(!args[1]){
-				return message.channel.send("️ℹ️ <@" + message.author.id +">, a link / text missing").then(m => m.delete(10000));
-			}else if(args[1].startsWith("https://www.youtube.com/watch?v=") || args[1].startsWith("https://youtu.be/")){
-				return message.channel.send("📍 **New Monstercat video!** <@&368160456319172610>\n" + args[1]).then(m => m.pin());
-			}else{
-				var broadcast = args.slice(1);
-				var notification = broadcast.join(" ");
-				message.channel.send(notification + "\n <@&368160456319172610>");
+
+			if (!args[1]) {
+				// Missing link or text
+				return message.channel.send("️ℹ️ <@" + message.author.id + ">, a link / text missing").then(m => m.delete(10000));
+				
+			} else if (args[1].startsWith("https://www.youtube.com/watch?v=") || args[1].startsWith("https://youtu.be/")) {
+				// Share YouTube link and Discord-pin it
+				return message.channel.send(`📍 **New Monstercat video!** <@&${pingRoleId}>\n${args[1]}`).then(m => m.pin());
+
+			} else {
+				// Share text and ping specific group
+				const broadcast = args.slice(1);
+				const notification = broadcast.join(" ");
+				message.channel.send(`${notification}\n<@&${pingRoleId}>`);
 			}
-		}else{
+
+		} else {
+			// Unknown parameter
 			message.delete();
 			message.channel.send("⚠️ I didn't understand, try again!").then(m => m.delete(10000));
 		}
-		
 	}
 }

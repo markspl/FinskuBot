@@ -1,6 +1,12 @@
+/**
+* FinskuBot - command name
+* Author: Markus (github/markspl)
+*
+* Description
+*/
 module.exports = {
 	command: "command",
-	catalog: 1,
+	catalog: 1,	// For listing commands in correct categories. Check 'finskubot.js'
 	server: [],
 	user: [],
 	role: [],

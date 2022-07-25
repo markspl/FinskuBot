@@ -1,4 +1,11 @@
-﻿module.exports = {
+﻿/**
+ * FinskuBot - poke
+ * Author: Markus (github/markspl)
+ * 
+ * Poke tagged user
+ */
+
+module.exports = {
 	command: "poke",
 	catalog: 2,
 	server: [],

@@ -1,4 +1,11 @@
-﻿module.exports = {
+﻿/**
+ * FinskuBot - changelog
+ * Author: Markus (github/markspl)
+ * 
+ * Show changelog link
+ */
+
+module.exports = {
 	command: "changelog",
 	catalog: 1,
 	server: [],
@@ -9,11 +16,8 @@
 	parameters: [],
 	execute: function(Client, message, args, guildMember) {
 
-		var log = "🔖 **Changelog:**\n";
-		log += "**Check changelog here:**\n";
-		log += "<https://github.com/markspl/FinskuBot/blob/master/CHANGELOG.md>";
+		const message = "🔖 **Changelog:**\n**Check changelog here:**\n<https://github.com/markspl/FinskuBot/blob/master/CHANGELOG.md>";
 
 		message.channel.send(log);
-
 	}
 }

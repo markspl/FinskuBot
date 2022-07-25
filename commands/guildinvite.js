@@ -1,5 +1,11 @@
-﻿const Discord = require("discord.js"),
-	Config = require("../config.json");
+﻿/**
+ * FinskuBot - guildinvite
+ * Author: Markus (github/markspl)
+ * 
+ * Share the invite link
+ */
+
+const Config = require("../config.json");
 
 module.exports = {
 	command: "guildinvite",
@@ -12,14 +18,14 @@ module.exports = {
     parameters: [],
 	execute: async(Client, message, args, guildMember) => {
 	
-		var response = "🔗 **Use this link to invite your *slimy* friends:**\n";	
+		const response = "🔗 **Use this link to invite your *slimy* friends:**\n";	
 
 		message.guild.fetchInvites().then( invites => {
 			
 			const invite = invites.array();
 			
-			var code = invite[0].code;	
-			var used = invite[0].uses;
+			const code = invite[0].code;	
+			const used = invite[0].uses;
 			
 			const address = "https://discord.gg/" + code;
 			

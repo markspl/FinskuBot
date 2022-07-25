@@ -1,4 +1,13 @@
-﻿const Config = require("../config.json");
+﻿/**
+ * FinskuBot - finskubot
+ * Author: Markus (github/markspl)
+ * 
+ * Show available commands listed in categories
+ * 1 == "Utility"
+ * 2 == "Fun"
+ */
+
+const Config = require("../config.json");
 const Package = require("../package.json");
 
 module.exports = {
@@ -12,26 +21,31 @@ module.exports = {
 	parameters: [],
 	execute: function(Client, message, args, guildMember) {
 		message.delete();
-		var response = ":robot: **Commands:**";
-				
-		for (var i = Config.discord_options.catalogs; i >= 0; i--){
+		let response = ":robot: **Commands:**";
+
+		// Print all catalogs and commands
+		for (let i = Config.discord_options.catalogs; i >= 0; i--){
+			// Topics for catalogs
 			if(i == 2) response += "\n\n**Fun**";
 			if(i == 1) response += "\n\n**Utility**";
 
+			// Print commands
 			for (let command in Client.commands) {
-				var c = Client.commands[command];
-				
-				//if(c.catalog != i) console.log("nope " + c.catalog + "!=" + i);
+				const c = Client.commands[command];
+			
 				if(c.catalog == i){
+					// Show commands which are for everyone and for the guild
 					if(c.server == message.guild.id || !c.server.length){
+						// Command is not hidden from this command
 						if (c.hidden == false){
+							// Check does user have rights to use the command
 							if (c.user == message.author.id || c.user.length === 0){
 								response += "\n`" + Config.discord_options.bot_prefix + c.command + "";
-
+								// Show parameters
 								if (c.parameters != 0) {
 									response += " [" + c.parameters + "]";
 								}
-
+						
 								response += "` : " + c.description;
 							}
 						}
