@@ -17,7 +17,7 @@ module.exports = {
 	hidden: false,
 	description: "Request command",
 	parameters: ["color <#colorcode>"],
-	execute: function (Client, message, args, guildMember) {
+	execute: async function (Client, message, args, guildMember) {
 
 		const colorInfo = "ℹ **Request**\nRequest nickname color.\n`color <#colorcode>` - Request nickname color\n`color none` - Remove nickname color\n`color random` - Random color\n\nFind a color code here: <https://google.com/search?q=color+picker>";
 
@@ -65,38 +65,18 @@ module.exports = {
 
 			} else {
 				let colourCode = args[1];
-
-				// Discord doesn't accept vantablack
-				if (colourCode === "#000000") colourCode = "#010101";
-
-				if (!message.guild.members.get(message.author.id).roles.find(x => x.name === authorId) && message.guild.roles.find(x => x.name === authorId)) {
-					// If not in member roles, is guild role
-
-					let role = message.guild.roles.find(x => x.name === authorId);
-					role.setColor(colourCode);
-
-					message.guild.members.get(message.author.id).addRole(role).catch(console.error);
-
-					const embed = new Discord.RichEmbed()
-						.setAuthor(message.author.username + ", enjoy your new color " + colourCode + "!", "https://cdn.discordapp.com/attachments/364767078470909963/373886303860949014/asd.png")
-						.setColor(colourCode);
-
-					message.channel.send({ embed });
-
-					return null;
-
-				} else if (!message.guild.members.get(message.author.id).roles.find(x => x.name === authorId)) {
-					// If no color role, create new
+				
+				if (!message.guild.roles.find(role => role.name === authorId) && !message.guild.members.get(message.author.id).roles.find(role => role.name === authorId)) {
+					// If user has no custom color role, neither guild, create new
 
 					message.guild.createRole({
 						name: authorId,
-						color: colourCode,
+						color: (colourCode === "#000000" ? "#010101" : colourCode),
 						mentionable: false,
 						permissions: 0
 					})
-						.then(role => message.guild.members.get(message.author.id)
-							.addRole(role)
-							.catch(console.error));
+						.then(role => message.guild.members.get(message.author.id).addRole(role)
+						.catch(console.error));
 
 					const embed = new Discord.RichEmbed()
 						.setAuthor(message.author.username + ", enjoy your new color " + colourCode + "!", "https://cdn.discordapp.com/attachments/364767078470909963/373886303860949014/asd.png")
@@ -104,21 +84,19 @@ module.exports = {
 
 					message.channel.send({ embed });
 
-					return null;
-
 				} else if (message.guild.members.get(message.author.id).roles.find(x => x.name === authorId)) {
-					// if a role > update
+					// If user has a role, update it
 
 					let role = message.guild.members.get(message.author.id).roles.find(x => x.name === authorId);
-					role.setColor(colourCode);
+					
+					// Discord doesn't accept vantablack. Change #000 to #010101
+					role.setColor((colourCode === "#000000" ? "#010101" : colourCode));
 
 					const embed = new Discord.RichEmbed()
 						.setAuthor(message.author.username + ", you changed color to " + colourCode + "!", "https://cdn.discordapp.com/attachments/364767078470909963/373886303860949014/asd.png")
 						.setColor(colourCode);
 
 					message.channel.send({ embed });
-
-					return null;
 				}
 			}
 
