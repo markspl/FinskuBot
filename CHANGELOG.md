@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+\-
+
+## [0.7.4] - 2022-07-26
+### Added
+- Add start script
+
+### Changed
+- Update README with instructions and other information
+- Show #000 correctly. Make structure simplier
+- Show custom role color correctly
+- Comment disabled commands
+- Clean config file
+- Rewrite and enable command request
+- Allow multiple users and roles rights for commands
+- Fix user information fetch
+- Change variable to correct one
+- Clean, refactor and add comments
+- Code cleaning and commenting
+- Fix security vulnerabilities by removing npm package 'request'
+
+### Removed
+- Remove PM2 features ('reboot', 'kill')
+- Remove feature nowplaying
+
 ## [0.7.3] - 2018-03-21
 ### Added
 - Added missing fields in package.json
