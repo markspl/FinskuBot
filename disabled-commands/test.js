@@ -1,4 +1,12 @@
-﻿var Discord = require("discord.js"),
+﻿/**
+ * FinskuBot - test
+ * Author: Markus (github/markspl)
+ * 
+ * Does not work (npm-request discontinued)
+ * Test file for WIP command ideas
+ */
+
+var Discord = require("discord.js"),
 	request = require("request"),
 	Config = require("../config.json");
 

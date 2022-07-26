@@ -1,3 +1,11 @@
+/**
+ * FinskuBot - server
+ * Author: Markus (github/markspl)
+ * 
+ * Does not work (npm-request discontinued)
+ * Check if Minecraft server is running using MCAPI
+ */
+
 const Config = require("../config.json");
 
 module.exports = {
@@ -10,6 +18,8 @@ module.exports = {
 	description: "Näe palvelimen tiedot",
 	parameters: ["ip"],
 	execute: function(Client, message, args, guildMember) {
+
+		const minecraft_ip = "ip-address:25565";
 		
 		let ip = Config.discord_options.minecraft_ip;
 		var request = require('request');
