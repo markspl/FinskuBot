@@ -18,6 +18,8 @@ module.exports = {
 	parameters: [],
 	execute: function (Client, message, args, guildMember) {
 
+		const author = message.author;
+
 		// Funny and stupid responses
 		const answers = ["your avatar is *kawaii*! :heart_eyes: **No homo tho**",
 			"I like your avatar! :smirk: ",
@@ -39,12 +41,12 @@ module.exports = {
 
 		// Reply using Discord's Rich Embed
 		const embed = new Discord.RichEmbed()
-			.setTitle(`🖼 ${message.author.username}, ${answer}`)
-			.setImage(message.author.avatarURL);
-
-		//
-		if (message.guild.members.get(message.author.id).roles.find("name", `${message.author.id}`)) {
-			embed.setColor(message.guild.members.get(message.author.id).roles.find("name", `${message.author.id}`).hexColor);
+			.setTitle(`🖼 ${author.username}, ${answer}`)
+			.setImage(author.avatarURL);
+		
+		// Use custom role color if found (role name 5 last digits)
+		if (message.guild.members.get(author.id).roles.find(role => role.name === author.id.slice(-5))) {
+			embed.setColor(message.guild.members.get(author.id).roles.find(role => role.name === author.id.slice(-5)).hexColor);
 		}
 
 		message.channel.send({ embed });
