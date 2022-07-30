@@ -4,16 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-\-
+<hr>
 
 ## [0.8] - 2022-07-30
 ### Added
+- Dockerize
+- Add missing license information
+- Use env variables over config.json if exist
 
 ### Changed
+- Disable notify command
+- Simplify logic of categories
 
 ### Removed
+- Remove unused value 'dev'
+- Remove unused dependencies
+- Remove emote which does not exist anymore
 
 ## [0.7.4] - 2022-07-26
 ### Added
