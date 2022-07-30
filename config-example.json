@@ -5,6 +5,5 @@
     "bot_owner": "The user ID of bot's master without '<@' and '>'",
     "bot_homeserver": "The guild ID of bot's home server without '<@' and '>'",
     "bot_homechannel": "The text channel ID where bot reports bot info"
-  },
-  "dev": true
+  }
 }
