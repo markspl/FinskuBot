@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr>
 
+## [0.8.1] - 2022-07-31
+### Fixed
+- Hotfix to push package-lock file and fix git clone link
+
 ## [0.8] - 2022-07-30
 ### Added
 - Dockerize
