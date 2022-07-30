@@ -35,7 +35,7 @@
 
 Bot can be run as [a) Node application](###a-run-bot-as-node-application), or as [b) Docker container](###b-run-bot-as-docker-container).
 
->Remember clone the repository  `git clone git@github.com:markspl/FinskuBot.git`
+>Remember clone the repository  `git clone https://github.com/markspl/FinskuBot.git`
 
 ### A) Run bot as Node application
 
