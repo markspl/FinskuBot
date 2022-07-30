@@ -7,7 +7,9 @@
  * 2 == "Fun"
  */
 
-const Config = require("../config.json");
+const { discord_options } = require("../config.json");
+const BOT_PREFIX = process.env.BOT_PREFIX || discord_options.bot_prefix;
+
 const Package = require("../package.json");
 
 module.exports = {
@@ -19,7 +21,7 @@ module.exports = {
 	hidden: false,
 	description: "I'm bot *bzz bzz'z*",
 	parameters: [],
-	execute: function(Client, message, args, guildMember) {
+	execute: function (Client, message, args, guildMember) {
 		message.delete();
 
 		// Count of catalogs
@@ -28,28 +30,28 @@ module.exports = {
 		let response = ":robot: **Commands:**";
 
 		// Print all catalogs and commands
-		for (let i = countCatalogs; i >= 0; i--){
+		for (let i = countCatalogs; i >= 0; i--) {
 			// Topics for catalogs
-			if(i == 2) response += "\n\n**Fun**";
-			if(i == 1) response += "\n\n**Utility**";
+			if (i == 2) response += "\n\n**Fun**";
+			if (i == 1) response += "\n\n**Utility**";
 
 			// Print commands
 			for (let command in Client.commands) {
 				const c = Client.commands[command];
-			
-				if(c.catalog == i){
+
+				if (c.catalog == i) {
 					// Show commands which are for everyone and for the guild
-					if(c.server == message.guild.id || !c.server.length){
+					if (c.server == message.guild.id || !c.server.length) {
 						// Command is not hidden from this command
-						if (c.hidden == false){
+						if (c.hidden == false) {
 							// Check does user have rights to use the command
-							if (c.user == message.author.id || c.user.length === 0){
-								response += "\n`" + Config.discord_options.bot_prefix + c.command + "";
+							if (c.user == message.author.id || c.user.length === 0) {
+								response += "\n`" + BOT_PREFIX + c.command + "";
 								// Show parameters
 								if (c.parameters != 0) {
 									response += " [" + c.parameters + "]";
 								}
-						
+
 								response += "` : " + c.description;
 							}
 						}

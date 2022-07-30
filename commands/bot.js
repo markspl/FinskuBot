@@ -5,13 +5,14 @@
  * Admin command to reload commands
  */
 
-const Config = require("../config.json");
+const { discord_options } = require("../config.json");
+const BOT_OWNER = process.env.BOT_OWNER || discord_options.bot_owner;
 
 module.exports = {
 	command: "bot",
 	catalog: 1,
 	server: [],
-	user: [Config.discord_options.bot_owner],
+	user: [BOT_OWNER],
 	role: [],
 	hidden: false,
 	description: "[A] Control bot",

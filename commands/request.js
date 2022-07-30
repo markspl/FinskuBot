@@ -6,12 +6,14 @@
  */
 
 const Discord = require("discord.js");
-const Config = require("../config.json");
+
+const { discord_options } = require("../config.json");
+const BOT_HOMESERVER = process.env.BOT_HOMESERVER || discord_options.bot_homeserver;
 
 module.exports = {
 	command: "request",
 	catalog: 1,
-	server: [Config.discord_options.bot_homeserver],
+	server: [BOT_HOMESERVER],
 	user: [],
 	role: ["354574809969197066", "418384797350756353"],
 	hidden: false,

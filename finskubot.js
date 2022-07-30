@@ -5,13 +5,19 @@
 
 const fs = require("fs");
 const Discord = require("discord.js");
+
 const Client = new Discord.Client();
 
-const { discord_options, dev } = require("./config.json");
 const { version } = require("./package.json");
 
+// Use environment variables if there is. Otherwise use ./config.json
+const { discord_options } = require("./config.json");
+
+const BOT_TOKEN = process.env.BOT_TOKEN || discord_options.bot_token;
+const BOT_PREFIX = process.env.BOT_PREFIX || discord_options.bot_prefix;
+const BOT_HOMECHANNEL = process.env.BOT_HOMECHANNEL || discord_options.bot_homechannel;
+
 process.title = "FinskuBot";
-const prefix = discord_options.bot_prefix;
 
 // Strings
 const MESSAGE_DM = "I don't serve you personally!\nTry again but on this time write the command \ninto the guild channel where I'm serving my master(s).";
@@ -24,7 +30,7 @@ Client.once("ready", async () => {
 	Client.load();
 
 	// Activity text on the user list (left panel)
-	Client.user.setActivity(`${prefix}\finskubot | ${version}`);
+	Client.user.setActivity(`${BOT_PREFIX}\finskubot | ${version}`);
 
 	console.log(`# FinskuBot version: \x1b[36m${version} \x1b[0m`);
 	console.log(`# Logged in as \x1b[36m${Client.user.tag}\x1b[0m`);
@@ -33,7 +39,7 @@ Client.once("ready", async () => {
 	console.log("\n# I'm ready!\n");
 
 	// Report on specific Discord text channel bot is running
-	Client.channels.get(discord_options.bot_homechannel).send(`**I'm up!** *Use me!* (͡° ͜ʖ ͡°)\n[${new Date().toUTCString()}]`);
+	Client.channels.get(BOT_HOMECHANNEL).send(`**I'm up!** *Use me!* (͡° ͜ʖ ͡°)\n[${new Date().toUTCString()}]`);
 });
 
 // Load commands from ./commands folder
@@ -74,7 +80,7 @@ Client.on("disconnect", event => {
 
 // Error occurred
 Client.on("error", (err) => {
-	console.log("\n##########\n## [ERROR]\n##########\n\n" + err.stack);
+	console.log("\n##########\n## [ERROR]\n##########\n\n" + err.stack + "\n\n##########");
 });
 
 /**
@@ -88,19 +94,16 @@ Client.on("message", message => {
 
 	} else if (message.channel.type === "text") {
 		// Text channels
-		if (dev == true && message.channel.id != discord_options.bot_homechannel) {
-			return null;
-
-		} else if (message.isMentioned(Client.user)) {
+		if (message.isMentioned(Client.user)) {
 			// Bot is pinged with '@'
 			message.reply(MESSAGE_MENTION);
 		
 		} else {
 			// Checking if the message starts with the prefix set in config file
-			if (message.content.startsWith(prefix)) {
+			if (message.content.startsWith(BOT_PREFIX)) {
 			
 				let args = message.content.split(" ");
-				const command = args[0].slice(prefix.length);
+				const command = args[0].slice(BOT_PREFIX.length);
 				const guildMember = message.author.id;
 				args.splice(0, 1);
 
@@ -148,5 +151,5 @@ Client.on("message", message => {
  * Bot boot
  */
 
-console.log(`# Launghing - (${new Date().toLocaleString()}).\n\n# Using prefix "\x1b[36m${discord_options.bot_prefix}\x1b[0m"`);
-Client.login(discord_options.bot_token).catch(console.error);
+console.log(`# Launghing - (${new Date().toLocaleString()}).\n\n# Using prefix "\x1b[36m${BOT_PREFIX}\x1b[0m"`);
+Client.login(BOT_TOKEN).catch(console.error);
