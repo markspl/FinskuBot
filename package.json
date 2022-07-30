@@ -14,8 +14,6 @@
     "start" : "node finskubot.js"
   },
   "dependencies": {
-    "discord.js": "^11.6.4",
-    "node-schedule": "^1.2.5",
-    "tmi.js": "^1.2.1"
+    "discord.js": "^11.6.4"
   }
 }
