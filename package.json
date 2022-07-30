@@ -1,11 +1,12 @@
 {
   "name": "finskubot",
-  "version": "0.7.3",
+  "version": "0.8",
   "description": "FinskuBot",
   "main": "finskubot.js",
   "author": {
-    "name": "Finsku"
+    "name": "Markus Palomäki"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/markspl/FinskuBot.git"
