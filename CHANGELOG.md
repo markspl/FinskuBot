@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 \-
 
+## [0.8] - 2022-07-30
+### Added
+
+### Changed
+
+### Removed
+
 ## [0.7.4] - 2022-07-26
 ### Added
 - Add start script

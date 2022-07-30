@@ -1,0 +1,7 @@
+node_modules
+./disabled-commands/
+./config-example.json
+./docker-compose*.yml
+./Dockerfile
+.gitignore
+*.md
