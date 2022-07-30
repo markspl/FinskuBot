@@ -1,6 +1,6 @@
-﻿<div align="center">
+<div align="center">
 <img src=https://cdn.discordapp.com/app-icons/299199715495641098/027e6865e21aa4eb5d546e6a0ca05a1e.png?size=128 alt="Bzz bzz"/>
-<h2>FinskuBot</h1>
+<h2>FinskuBot</h2>
 <i>Another stupid Discord bot.</i>
 <br>
 <img src="https://img.shields.io/github/package-json/v/markspl/FinskuBot" alt="bot version"/>
