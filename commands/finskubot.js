@@ -58,7 +58,7 @@ module.exports = {
 			}
 		}
 
-		message.channel.send(response + "\n\n<:finsku:358003359447252993> *V" + Package.version + "* | *Serving in " + Client.guilds.array().length + " server(s)*")
+		message.channel.send(response + "\n\n*V" + Package.version + "* | *Serving in " + Client.guilds.array().length + " server(s)*")
 			.then(m => m.delete(3600000));
 	}
 }
