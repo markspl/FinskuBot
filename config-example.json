@@ -2,7 +2,6 @@
   "discord_options": {
     "bot_token": "Bot's Discord token (https://discordapp.com/developers)",
     "bot_prefix": "The prefix what your bot uses/listens. I'm using '!'",
-    "catalogs": "2",
     "bot_owner": "The user ID of bot's master without '<@' and '>'",
     "bot_homeserver": "The guild ID of bot's home server without '<@' and '>'",
     "bot_homechannel": "The text channel ID where bot reports bot info"

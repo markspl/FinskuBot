@@ -6,7 +6,7 @@
 */
 module.exports = {
 	command: "command",
-	catalog: 1,	// For listing commands in correct categories. Check 'finskubot.js'
+	catalog: 1,	// For listing commands in correct categories. Check './commands/finskubot.js'
 	server: [],
 	user: [],
 	role: [],

@@ -38,7 +38,6 @@
   "discord_options": {
     "bot_token": "Bot's Discord token (https://discordapp.com/developers)",
     "bot_prefix": "The prefix what your bot uses/listens. I'm using '!'",
-    "catalogs": "2",
     "bot_owner": "The user ID of bot's master without '<@' and '>'",
     "bot_homeserver": "The guild ID of bot's home server without '<@' and '>'",
     "bot_homechannel": "The text channel ID where bot reports bot info"
@@ -48,7 +47,6 @@
 ```
 - On Discord Developers Portal (https://discordapp.com/developers) create a new Application and get token (`bot_token`)
 - `request` custom role colour command works only when configure `SERVER MEMBERS INTENT` on Discord Developers Portal is set on (Bot > "Settings" tab > "Bot" > Privileged Gateway Intents > `SERVER MEMBERS INTENT`)
-- `catalogs` : Default 2. If more commands and catalogs added, this count can be changed.
 - `bot_owner` : Some commands are only for the person who runs the bot
 - `bot_homeserver` : Some commands are only for the specific server (invite, notify, request)
 - `bot_homechannel` : For now, homechannel is required to have
@@ -59,7 +57,6 @@ Example `config.json`:
   "discord_options": {
     "bot_token": "abcdefg123456...",
     "bot_prefix": "!!",
-    "catalogs": "2",
     "bot_owner": "0123456...",
     "bot_homeserver": "0123456...",
     "bot_homechannel": "0123456..."

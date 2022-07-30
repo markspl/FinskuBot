@@ -21,10 +21,14 @@ module.exports = {
 	parameters: [],
 	execute: function(Client, message, args, guildMember) {
 		message.delete();
+
+		// Count of catalogs
+		const countCatalogs = 2;
+
 		let response = ":robot: **Commands:**";
 
 		// Print all catalogs and commands
-		for (let i = Config.discord_options.catalogs; i >= 0; i--){
+		for (let i = countCatalogs; i >= 0; i--){
 			// Topics for catalogs
 			if(i == 2) response += "\n\n**Fun**";
 			if(i == 1) response += "\n\n**Utility**";
