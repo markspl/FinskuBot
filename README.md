@@ -29,6 +29,17 @@
 - userinfo : Check what informations I can get
 ```
 
+## Screenshots
+
+<img src="images/finskubot-1.png" alt="Commands">
+
+<details>
+<summary><b>Click to see more screenshots</b></summary>
+<img  src="images/finskubot-3.png" alt="Userinfo" width=420px><br>
+<img src="images/finskubot-2.png" alt="Request" width=420px><br>
+<img src="images/finskubot-4.png" alt="8ball" width=420px>
+</details>
+
 <hr>
 
 ## How-To
